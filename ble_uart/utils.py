@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
 """
+import logging
+
+logging.basicConfig(level=logging.INFO)
+LOG = logging.getLogger()
 
 # The BLE data use |bytearray|. Thus, please convert data for BLE stack to |bytearray|.
 #

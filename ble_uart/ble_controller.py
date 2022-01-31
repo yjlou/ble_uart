@@ -7,6 +7,7 @@ callback functions for read/write.
 """
 import traceback
 
+from ble_uart.utils import LOG
 from bluezero import adapter
 from bluezero import peripheral
 
@@ -33,7 +34,7 @@ def callback(func):
     try:
       return func(*args, **kwargs)
     except:
-      print(f'callback ERROR: {func}({args}, {kwargs})')
+      LOG.error(f'callback ERROR: {func}({args}, {kwargs})')
       traceback.print_stack()
       traceback.print_exc()
       raise

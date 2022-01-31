@@ -15,6 +15,7 @@ import ble_uart.exec
 import ble_uart.file_io
 from ble_uart.nus import Nus
 from ble_uart.pipeline import Pipeline
+from ble_uart.utils import LOG
 
 
 PARSER = argparse.ArgumentParser()
@@ -53,9 +54,9 @@ class LateBind(object):
 
 def die_when_dry_run(args):
   if args.dry_run:
-    print('')
-    print('Dry run ... Done.')
-    print('')
+    LOG.info('')
+    LOG.info('Dry run ... Done.')
+    LOG.info('')
     sys.exit()
 
 
@@ -72,44 +73,46 @@ def main():
   while True:
     try:
       if args.echo:
-        print(f'Launch Echo server')
+        run_as = f'Launch Echo server'
         echo = ble_uart.echo.Echo()
         late_bind.set(echo.start, echo.stop)
         pipeline = Pipeline([nus, echo])
 
       elif args.login:
-        print(f'Login to console')
+        run_as = f'Login to console'
         exec = ble_uart.exec.Exec('/bin/login')
         late_bind.set(exec.start, exec.stop)
         pipeline = Pipeline([nus, exec])
 
       elif args.command:
-        print(f'Run command')
+        run_as = f'Run command'
         exec = ble_uart.exec.Exec(args.command)
         late_bind.set(exec.start, exec.stop)
         pipeline = Pipeline([nus, exec])
 
       else:
-        print(f'File IO')
+        run_as = f'File IO'
         file_io = ble_uart.file_io.FileIo(args.read, args.write)
         late_bind.set(file_io.start, file_io.stop)
         pipeline = Pipeline([nus, file_io])
 
       pipeline.compose()
       nus.start()
-      
-      print(f'Created BLE services with device name [{local_name}].')
-      print(f'Adapter address: [{nus.ble_ctl.adapter_address}]')
-      print(f'')
-      print(f'Please use your phone to connect and try to read/write the services.')
-      print(f'')
-      print(f'Ctrl + C once you are done...')
-      print(f'')
+
+      LOG.info(f'Created BLE services with device name [{local_name}].')
+      LOG.info(f'Adapter address: [{nus.ble_ctl.adapter_address}]')
+      LOG.info(f'')
+      LOG.info(f'  {run_as}')
+      LOG.info(f'')
+      LOG.info(f'Please use your phone to connect and try to read/write the services.')
+      LOG.info(f'')
+      LOG.info(f'Ctrl + C once you are done...')
+      LOG.info(f'')
       threading.Event().wait()
 
     except Exception as err:
-      print(f'Catch exception: {err}')
-      print(f'Restarting ...')
+      LOG.error(f'Catch exception: {err}')
+      LOG.info(f'Restarting ...')
       time.sleep(1)
 
 

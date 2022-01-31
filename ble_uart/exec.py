@@ -9,6 +9,7 @@ import time
 
 sys.path.append('.')  # to import file in the current directory.
 
+from ble_uart.utils import LOG
 import process_unit
 import utils
 
@@ -25,10 +26,10 @@ class Exec(process_unit.ProcessUnit):
       try:
         self._pipe.write(bytes(data).decode('utf-8'))
       except Exception as err:
-        print(f'Error while sending to the program: {err}')
+        LOG.error(f'Error while sending to the program: {err}')
 
   def start(self, new_dev):
-    print(f'Here comes a new device: {new_dev}')
+    LOG.info(f'Here comes a new device: {new_dev}')
     self._pipe = PtyProcessUnicode.spawn(shlex.split(self._program))
     threading.Thread(target=self.process_loop).start()
 
@@ -43,17 +44,17 @@ class Exec(process_unit.ProcessUnit):
         self.flow(1).ingress(utils.str_to_bytearray(data))
 
     except EOFError as err:
-      print(f'Detected EOF in exec.process_loop. Stop.')
+      LOG.error(f'Detected EOF in exec.process_loop. Stop.')
     finally:
       self.terminate()
 
   def terminate(self):
-    print(f'Terminating the pipe ...')
+    LOG.info(f'Terminating the pipe ...')
     self._pipe.terminate(force=True)
     self._pipe = None
 
   def stop(self):
     if self._pipe:
-      print(f'The device is disconnecting...')
+      LOG.info(f'The device is disconnecting...')
       self.terminate()
-    print(f'The device is disconnected.')
+    LOG.info(f'The device is disconnected.')

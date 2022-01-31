@@ -7,6 +7,7 @@ import threading
 
 sys.path.append('.')  # to import file in the current directory.
 
+from ble_uart.utils import LOG
 import process_unit
 import utils
 
@@ -26,10 +27,10 @@ class FileIo(process_unit.ProcessUnit):
       try:
         self._write_fp.write(bytes(data).decode('utf-8'))
       except Exception as err:
-        print(f'Error while sending to the file: {err}')
+        LOG.error(f'Error while sending to the file: {err}')
 
   def start(self, new_dev):
-    print(f'Here comes a new device: {new_dev}')
+    LOG.info(f'Here comes a new device: {new_dev}')
     self._write_fp = open(self._write_filename, 'w')
     threading.Thread(target=self.process_loop).start()
 
@@ -50,7 +51,7 @@ class FileIo(process_unit.ProcessUnit):
         self.flow(1).ingress(utils.str_to_bytearray(data))
 
     except EOFError as err:
-      print(f'Detected EOF in file_io.process_loop. Stop.')
+      LOG.error(f'Detected EOF in file_io.process_loop. Stop.')
     finally:
       self._read_fp.close()
       self._read_fp = None
@@ -61,4 +62,4 @@ class FileIo(process_unit.ProcessUnit):
       self._write_fp.close()
       self._write_fp = None
 
-    print(f'The device is disconnected.')
+    LOG.info(f'The device is disconnected.')

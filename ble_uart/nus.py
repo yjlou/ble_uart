@@ -10,6 +10,7 @@ Checkout the document on the following pages:
 import threading
 
 import ble_controller
+from ble_uart.utils import LOG
 import process_unit
 
 
@@ -75,7 +76,7 @@ class Nus(process_unit.ProcessUnit):
 
   @ble_controller.callback
   def notify_callback(self, notifying, characteristic):
-    print(f'NOTIFY: {notifying} / {characteristic}')
+    LOG.info(f'NOTIFY: {notifying} / {characteristic}')
     if notifying:
       self._update_characteristic = characteristic
       if self._buf:
