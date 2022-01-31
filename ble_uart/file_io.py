@@ -23,9 +23,9 @@ class FileIo(process_unit.ProcessUnit):
   def rx(self, data:bytearray):
     if self._write_fp:
       try:
-        self._write_fp.write(bytes(data))
+        self._write_fp.write(bytes(data).decode('utf-8'))
       except Exception as err:
-        print(f'Error while sending to the program: {err}')
+        print(f'Error while sending to the file: {err}')
 
   def start(self, new_dev):
     print(f'Here comes a new device: {new_dev}')
