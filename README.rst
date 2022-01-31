@@ -14,6 +14,11 @@ Just download an off-the-shelf BLE UART app (listed below_). Then you are ready 
   :width: 400
   :alt: Login example
 
+Verified Platforms
+------------------
+
+* Raspberry Pi Zero 1/2 W
+
 Install Packages
 ----------------
 
@@ -23,6 +28,8 @@ Install Packages
 
 Running the Program
 -------------------
+
+This program supports the following modes:
 
 .. code-block:: bash
 
@@ -38,11 +45,8 @@ Running the Program
   # Launch a command after BLE connection is established.
   ./ble_uart.py -c "netcat google.com 80"
 
-
-Verified Platforms
-------------------
-
-* Raspberry Pi Zero 1/2 W
+Once the program is launched, it will advertise a BLE UART service. Use the following BLE apps or
+browsers to search a device named 'BLE_UART' and then connect it to use.
 
 .. _below:
 
@@ -57,5 +61,13 @@ Verified Apps on Android
 Verified Apps on iOS
 --------------------
 
+
+
 Verified Web Browsers
 ---------------------
+
+Click the following web_page_ link to connect the Raspberry Pi through the browser.
+
+.. _web_page: https://raw.githack.com/yjlou/ble_uart/master/html/ble_uart.html
+
+* Chrome
