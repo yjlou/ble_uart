@@ -28,7 +28,7 @@ function send_line() {
 }
 
 function handleCharacteristicValueChanged(event) {
-  # TODO: handle the terminal control code.
+  // TODO: handle the terminal control code.
   var remote_output = document.getElementById('remote_output');
   var value = event.target.value;
   var a = [];
