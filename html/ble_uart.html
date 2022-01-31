@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>BLE UART</title>
+    <script src="ble_uart.js"></script>
+  </head>
+  <body>
+    <table>
+      <tr height=100%>
+        <td width=200 style="overflow-y:scroll;">
+          <form onsubmit='javascript: return false;'>
+            <button id='scan_btn' onclick='javascript: ble_scan();'>Scan BLE</button>
+            <textarea id="logs" cols="40" rows="40" disabled></textarea><br>
+          </form>
+        </td>
+        <td height=100% width=100%>
+          <form onsubmit='javascript: return false;'>
+            <textarea id="remote_output" cols="80" rows="40" disabled>Please use the 'Scan BLE' button in the left-hand side to start.</textarea><br>
+            <input id='local_input' size=70></input>
+            <button id='send_line_btn' onclick='javascript: send_line();' disabled>Send</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
