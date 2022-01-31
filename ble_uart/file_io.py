@@ -2,6 +2,7 @@
 """Read/write from/into files (or file-like, for example, named pipe).
 """
 import sys
+import time
 import threading
 
 sys.path.append('.')  # to import file in the current directory.
@@ -38,6 +39,8 @@ class FileIo(process_unit.ProcessUnit):
 
     try:
       self._processing = True
+      time.sleep(3)  # Give 3 secs for BLE to update the norify=False so that we can queue
+                     # the very first N bytes in Nus._buf.
       self._read_fp = open(self._read_filename, 'r')
 
       while True:
