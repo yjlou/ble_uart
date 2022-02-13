@@ -101,7 +101,8 @@ class Nus(process_unit.ProcessUnit):
                 notify=lambda notifying, characteristic: self.notify_callback(notifying, characteristic)),
         },
         on_connect=self._on_connect,
-        on_disconnect=self._on_disconnect
+        on_disconnect=self._on_disconnect,
+        encryption=True
     )
     self._ble_thread = threading.Thread(target=self._ble_ctl.start)
     self._ble_thread.start()
