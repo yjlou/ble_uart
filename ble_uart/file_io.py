@@ -23,6 +23,7 @@ class FileIo(process_unit.ProcessUnit):
     self.flow(0).set_egress(self.rx)
 
   def rx(self, data:bytearray):
+    # Received fata from the BLE. Now write to the file.
     if self._write_fp:
       try:
         self._write_fp.write(bytes(data).decode('utf-8'))
@@ -45,6 +46,7 @@ class FileIo(process_unit.ProcessUnit):
       self._read_fp = open(self._read_filename, 'r')
 
       while True:
+        # We got the data from the file. Now send it back to the BLE.
         data = self._read_fp.read(1)
         if not data:
           raise EOFError

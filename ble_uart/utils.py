@@ -10,7 +10,14 @@ LOG = logging.getLogger()
 #
 def str_to_bytearray(value:str):
   assert isinstance(value, str)
-  return bytearray([ord(x) for x in value])
+
+  # When hanlding the console input, the input can be converted to Unicode, which the
+  # ord() cannot support. When this happens, convert it to utf-8.
+  out = []
+  for ch in value:
+    out += ch.encode('utf-8') if ord(ch) >= 256 else [ord(ch)]
+
+  return bytearray(out)
 
 def str_to_list(value:str):
   assert isinstance(value, str)
