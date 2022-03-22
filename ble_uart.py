@@ -15,6 +15,7 @@ import ble_uart.exec
 import ble_uart.file_io
 from ble_uart.nus import Nus
 from ble_uart.pipeline import Pipeline
+import ble_uart.utils
 from ble_uart.utils import LOG
 
 
@@ -35,37 +36,12 @@ PARSER.add_argument('-w', '--write', dest='write', type=str, default='/dev/stdou
                     help='Write to a file')
 
 
-class LateBind(object):
-  def __init__(self):
-    self._start = None
-    self._stop = None
-
-  def set(self, start:callable, stop:callable):
-    self._start = start
-    self._stop = stop
-
-  def start(self, new_dev):
-    if self._start:
-      self._start(new_dev)
-
-  def stop(self):
-    if self._stop:
-      self._stop()
-
-def die_when_dry_run(args):
-  if args.dry_run:
-    LOG.info('')
-    LOG.info('Dry run ... Done.')
-    LOG.info('')
-    sys.exit()
-
-
 def main():
   args = PARSER.parse_args()
-  die_when_dry_run(args)
+  ble_uart.utils.die_when_dry_run(args)
 
   local_name = args.name if args.name else 'BLE_UART'
-  late_bind = LateBind()
+  late_bind = ble_uart.utils.LateBind()
   nus = Nus(local_name=local_name,
             on_connect=late_bind.start,
             on_disconnect=late_bind.stop)
