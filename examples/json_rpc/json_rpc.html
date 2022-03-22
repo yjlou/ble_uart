@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>JSON RPC</title>
+    <script src="../../js/simple-jsonrpc-js.js"></script>
+    <script src="../../js/nus.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+      // The global variables. Will be initialized in the onload().
+      var nus = null;
+      var jrpc = null;
+
+      function enable_btns() {
+        var add_btn = document.getElementById('add_btn');
+        add_btn.disabled = false;
+      }
+
+      function disable_btns() {
+        var add_btn = document.getElementById('add_btn');
+        add_btn.disabled = true;
+      }
+
+      function add_sum(a, b) {
+        jrpc.call('add', [a, b]).then(function(result) {
+            console.log(`The add results: ${result}`);
+            sum.value = result;
+        });
+      }
+
+      function onload() {
+        nus = new Nus(
+          on_connected=function() {
+            this.log('on_connected()');
+            enable_btns();
+          },
+          on_rx=function(data) {
+            // This function is called when data are received from the BLE device.
+            this.log(`on_rx(): ${data}`);
+            jrpc.messageHandler(data);
+          },
+          on_disconnected=function() {
+            this.log('on_disconnected()');
+            disable_btns();
+          }
+        );
+
+        jrpc = new simple_jsonrpc();
+        jrpc.toStream = function(msg) {
+          // This function is called when a RPC call is invoked and the serialized data are ready to
+          // send out via the transportation layer.
+          console.log(`jrpc.toStream(): ${msg}`);
+          var enc = new TextEncoder();  // Used to convert from string to Uint8Array.
+          nus.send_data(enc.encode(msg));
+        };
+      }
+    </script>
+  </head>
+  <body onload="onload();">
+    <pre>
+      Please run the pyhton JSON RPC server:
+
+      % examples/json_rpc/json_rpc.py
+
+      Then click the 'Scan' button below. Once the 'Add' button is active, try to add 2 nbumbers below.
+    </pre>
+    <button id='scan_btn' onclick='javascript: nus.scan();'>Scan</button>
+    <hr>
+    <form onsubmit='javascript: return false;'>
+      <input id='input_a' size=5 value="5566"> + <input id='input_b' size=5 value="183"> =
+      <button id='add_btn' onclick='javascript: add_sum(parseInt(input_a.value), parseInt(input_b.value));' disabled>Add</button>
+      <input id='sum' size=5 disabled>
+    </form>
+    <button id='disconnect_btn' onclick='javascript: nus.disconnect();'>Disconnect</button>
+  </body>
+</html>

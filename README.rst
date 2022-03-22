@@ -45,6 +45,10 @@ This program supports the following modes:
   # Launch a command after BLE connection is established.
   ./ble_uart.py -c "netcat google.com 80"
 
+  # Run as a JSON RPC server
+  examples/json_rpc.py
+  # Check the message to get the URL for the RPC client.
+
 Once the program is launched, it will advertise a BLE UART service. Use the following BLE apps or
 browsers to search a device named 'BLE_UART' and then connect it to use.
 
@@ -71,3 +75,20 @@ Click the following web_page_ link to connect the Raspberry Pi through the brows
 .. _web_page: https://raw.githack.com/yjlou/ble_uart/master/examples/ble_uart/ble_uart.html
 
 * Chrome
+
+For full list, check the browser implementation_ status.
+
+.. _implementation: https://github.com/WebBluetoothCG/web-bluetooth/blob/main/implementation-status.md
+
+
+Troubleshooting the BLE
+-----------------------
+
+.. code-block:: bash
+
+  # On Raspberry Pi board.
+  service bluetooth stop
+  rm -rf /var/lib/bluetooth
+  service bluetooth start
+
+  # restart the ble_uart.py
