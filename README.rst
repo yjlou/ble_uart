@@ -68,6 +68,6 @@ Verified Web Browsers
 
 Click the following web_page_ link to connect the Raspberry Pi through the browser.
 
-.. _web_page: https://raw.githack.com/yjlou/ble_uart/master/html/ble_uart.html
+.. _web_page: https://raw.githack.com/yjlou/ble_uart/master/examples/ble_uart/ble_uart.html
 
 * Chrome
