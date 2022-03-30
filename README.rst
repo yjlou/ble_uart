@@ -23,8 +23,8 @@ Install Packages
 ----------------
 
 .. code-block:: bash
-  sudo apt install bluez netcat
-  pip3 install -r requirements.txt
+
+  ./envsetup.sh
 
 Running the Program
 -------------------
@@ -46,7 +46,7 @@ This program supports the following modes:
   ./ble_uart.py -c "netcat google.com 80"
 
   # Run as a JSON RPC server
-  examples/json_rpc.py
+  examples/json_rpc/json_rpc.py
   # Check the message to get the URL for the RPC client.
 
 Once the program is launched, it will advertise a BLE UART service. Use the following BLE apps or
@@ -65,6 +65,7 @@ Verified Apps on Android
 Verified Apps on iOS
 --------------------
 
+Under construction.
 
 
 Verified Web Browsers
@@ -79,6 +80,17 @@ Click the following web_page_ link to connect the Raspberry Pi through the brows
 For full list, check the browser implementation_ status.
 
 .. _implementation: https://github.com/WebBluetoothCG/web-bluetooth/blob/main/implementation-status.md
+
+
+How to run the HTML/javascript examples in local
+------------------------------------------------
+
+.. code-block:: bash
+  # At root path. Make sure you have run ./envsetup.sh once to get the cert files.
+  python simple-https-server.py
+
+  # Visit https://localhost/examples/ble_uart/ble_uart.html
+  # Or    https://localhost/examples/json_rpc/json_rpc.html
 
 
 Troubleshooting the BLE
