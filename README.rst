@@ -99,8 +99,9 @@ Troubleshooting the BLE
 .. code-block:: bash
 
   # On Raspberry Pi board.
-  service bluetooth stop
-  rm -rf /var/lib/bluetooth
-  service bluetooth start
+
+  # stop the ble_uart.py
+
+  utils/restart_bluetooth.sh
 
   # restart the ble_uart.py
