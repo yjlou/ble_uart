@@ -46,6 +46,20 @@ function ble_scan() {
   };
   var logs = document.getElementById('logs');
 
+  if (!navigator.bluetooth) {
+    log('navigator.bluetooth is undefined!');
+    var remote_output = document.getElementById('remote_output');
+    disable_scan_btn();
+    remote_output.value = "
+      The browser doesn't support Bluetooth feature (navigator.bluetooth).
+      If you are using Chrome, try to enable
+      <a href='chrome://flags/#enable-experimental-web-platform-features' target='_blank'>
+        this flag
+      </a>.
+    ";
+    return;
+  }
+
   log('------------------------------');
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice(options)
@@ -83,6 +97,11 @@ function on_disconnected(event) {
   }
   log(`Device [${device_name}] is disconnected.`);
   disable_send_btn();
+}
+
+function disable_scan_btn() {
+  var scan_btn = document.getElementById('scan_btn');
+  scan_btn.disabled = true;
 }
 
 function disable_send_btn() {
