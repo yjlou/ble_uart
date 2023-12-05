@@ -50,13 +50,13 @@ function ble_scan() {
     log('navigator.bluetooth is undefined!');
     var remote_output = document.getElementById('remote_output');
     disable_scan_btn();
-    remote_output.value = "
+    remote_output.value = `
       The browser doesn't support Bluetooth feature (navigator.bluetooth).
       If you are using Chrome, try to enable
       <a href='chrome://flags/#enable-experimental-web-platform-features' target='_blank'>
         this flag
       </a>.
-    ";
+    `;
     return;
   }
 
