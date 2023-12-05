@@ -52,10 +52,8 @@ function ble_scan() {
     disable_scan_btn();
     error_prompt.innerHTML = `
       The browser doesn't support Bluetooth feature (navigator.bluetooth).
-      If you are using Chrome, try to enable
-      <a href='chrome://flags/#enable-experimental-web-platform-features' target='_blank'>
-        this flag
-      </a>.
+      If you are using Chrome, try to enable the flag in: 
+      'chrome://flags/#enable-experimental-web-platform-features'.
     `;
     return;
   }
