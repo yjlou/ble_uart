@@ -90,7 +90,7 @@ class Nus(process_unit.ProcessUnit):
 
   def start(self):
     if self._started:
-      reutnr
+      return
 
     self._ble_ctl = ble_controller.BleController(
         local_name=self._local_name,
